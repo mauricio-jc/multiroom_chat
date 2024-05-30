@@ -17,16 +17,30 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            <form accept-charset="UTF-8" role="form" class="form-signin">
+                            <form action="/chat" method="post" accept-charset="UTF-8" role="form" class="form-signin">
                                 <fieldset>
                                     <label class="panel-login">
                                         <div class="login_result"></div>
                                     </label>
-                                    <input class="form-control" placeholder="Nome ou apelido" id="apelido" type="text">
-                                    <br></br>
-                                    <input class="btn btn-lg btn-success btn-block" type="submit" id="entrar" value="Entrar »">
+                                    <input type="text" name="username" class="form-control" placeholder="Nome ou apelido" id="apelido">
+                                    <br><br>
+
+                                    <button type="submit" id="entrar" class="btn btn-lg btn-success btn-block">Entrar »</button>
                                 </fieldset>
                             </form>
+
+                            <br>
+
+                            <% if(errors) { %>
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <ul>
+                                    <% for(var i = 0; i < errors.length; i++) { %>
+                                    <li><%= errors[i].msg %></li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                            <% } %>
                         </div>
                     </div>
                 </div>
