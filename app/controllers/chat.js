@@ -1,7 +1,9 @@
 const { validationResult } = require('express-validator');
 
 module.exports.initChat = (app, req, res) => {
-	res.render('chat');
+	res.render('chat', {
+		username: req.session.username
+	});
 }
 
 module.exports.setUsername = (app, req, res) => {
@@ -15,10 +17,11 @@ module.exports.setUsername = (app, req, res) => {
 		return;
 	}
 
-	app.get('io').emit('enterChat', {
+	app.get('io').emit('chatToClient', {
 		username: data.username,
 		message: `Usuário ${data.username} entrou no chat`
 	});
 
+	req.session.username = data.username;
 	res.redirect('/chat');
 }

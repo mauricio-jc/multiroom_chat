@@ -93,16 +93,15 @@
 		<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
 			<div class="container">
 				<div class="panel-body campo-mensagem">
-					<form>
-						<div class="col-md-12">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Mensagem">
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button">></button>
-								</span>
-							</div>
+					<div class="col-md-12">
+						<div class="input-group">
+							<input type="text" id="message" class="form-control" placeholder="Mensagem">
+							<input type="hidden" id="username" value="<%=username%>">
+							<span class="input-group-btn">
+								<button type="button" id="send-message" class="btn btn-default">Enviar</button>
+							</span>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</nav>		
@@ -112,13 +111,20 @@
 		<script>
   			const socket = io('http://localhost:3000');
 
-  			socket.on('enterChat', (data) => {
+  			socket.on('chatToClient', (data) => {
   				$('#chats').append(
   					'<div class="dialogo">' +
 						'<h4>' + data.username + '</h4>' +
 						'<p>' + data.message + '</p>' +
 					'</div>'
 				);
+  			});
+
+  			$('#send-message').click(function() {
+  				socket.emit('sendMessage', {
+  					username: $('#username').val(),
+  					message: $('#message').val()
+  				});
   			});
 		</script>
 	</body>
