@@ -58,7 +58,7 @@
 		<div class="container">
             <div class="row conversa" id="conversa">
 				<div class="col-md-1"></div>
-				<div class="col-md-10">
+				<div class="col-md-10" id="chats">
 					<!-- <div class="dialogo">
 						<h4>Jorge</h4>
 						<p>Fala José, blz cara?</p>
@@ -113,7 +113,12 @@
   			const socket = io('http://localhost:3000');
 
   			socket.on('enterChat', (data) => {
-  				alert(data);
+  				$('#chats').append(
+  					'<div class="dialogo">' +
+						'<h4>' + data.username + '</h4>' +
+						'<p>' + data.message + '</p>' +
+					'</div>'
+				);
   			});
 		</script>
 	</body>

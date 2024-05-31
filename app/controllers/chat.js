@@ -15,7 +15,10 @@ module.exports.setUsername = (app, req, res) => {
 		return;
 	}
 
-	app.get('io').emit('enterChat', `Usuário ${data.username} entrou no chat`);
+	app.get('io').emit('enterChat', {
+		username: data.username,
+		message: `Usuário ${data.username} entrou no chat`
+	});
 
 	res.redirect('/chat');
 }
