@@ -69,21 +69,7 @@
 			
 			<div class="row participantes" id="participantes" style="display:none">
 				<div class="col-md-1"></div>
-				<div class="col-md-10">
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						Jorge
-					</span>
-					
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						José
-					</span>
-					
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						Fernando
-					</span>
+				<div class="col-md-10" id="onlines">
 				</div>
 				<div class="col-md-1"></div>
                 
@@ -97,6 +83,7 @@
 						<div class="input-group">
 							<input type="text" id="message" class="form-control" placeholder="Mensagem">
 							<input type="hidden" id="username" value="<%=username%>">
+							<input type="hidden" id="isOnline" value="0">
 							<span class="input-group-btn">
 								<button type="button" id="send-message" class="btn btn-default">Enviar</button>
 							</span>
@@ -118,13 +105,32 @@
 						'<p>' + data.message + '</p>' +
 					'</div>'
 				);
+
+				window.scrollTo(0, document.body.scrollHeight);
+  			});
+
+  			socket.on('online', (data) => {
+  				$('#onlines').append(
+  					'<span class="participante">' +
+						'<img src="images/ico_usuario.png" />' +
+						data.username +
+					'</span>'
+				);
   			});
 
   			$('#send-message').click(function() {
   				socket.emit('sendMessage', {
   					username: $('#username').val(),
-  					message: $('#message').val()
+  					message: $('#message').val(),
+  					isOnline: $('#isOnline').val()
   				});
+
+  				socket.emit('online', {
+  					username: $('#username').val()
+  				});
+
+  				$('#isOnline').val(1);
+  				$('#message').val('')
   			});
 		</script>
 	</body>

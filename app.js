@@ -21,6 +21,16 @@ io.on('connection', (socket) => {
 			username: data.username,
 			message: data.message
 		});
+
+		if(parseInt(data.isOnline) == 0) {
+			socket.emit('online', {
+				username: data.username
+			});
+
+			socket.broadcast.emit('online', {
+				username: data.username
+			});
+		}
   	});
 
   	socket.on('disconnect', (reason) => {
